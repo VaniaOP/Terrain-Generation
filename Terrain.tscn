@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://h0r1dq87t1vs"]
+
+[ext_resource type="Script" uid="uid://ryrx8pwc2kes" path="res://addons/zylann.hterrain/hterrain.gd" id="1_ptml4"]
+[ext_resource type="Resource" uid="uid://c71f0jjtpy4xt" path="res://terrain/data.hterrain" id="2_p0eop"]
+[ext_resource type="Resource" uid="uid://b1851krk0tj4j" path="res://TSet.tres" id="3_po3o5"]
+[ext_resource type="Script" uid="uid://dtg5nrysvvlp" path="res://camera_3d.gd" id="4_p0eop"]
+[ext_resource type="Texture2D" uid="uid://db0lmo5t8dmqq" path="res://citrus_orchard_road_puresky_2k.exr" id="11_jrbp2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pl1wv"]
+transparency = 1
+albedo_color = Color(0, 0.34612888, 0.5706539, 0.64705884)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ptml4"]
+material = SubResource("StandardMaterial3D_pl1wv")
+size = Vector2(1025, 1025)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pm1jh"]
+panorama = ExtResource("11_jrbp2")
+
+[sub_resource type="Sky" id="Sky_nfuxm"]
+sky_material = SubResource("PanoramaSkyMaterial_pm1jh")
+
+[sub_resource type="Environment" id="Environment_sl4s4"]
+background_mode = 2
+sky = SubResource("Sky_nfuxm")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("1_ptml4")
+centered = true
+_terrain_data = ExtResource("2_p0eop")
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+physics_material = null
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = ExtResource("3_po3o5")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20.0
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = true
+shader_params/u_tile_reduction = Vector4(1, 1, 1, 1)
+shader_params/u_specular = 0.5
+metadata/_custom_type_script = "uid://ryrx8pwc2kes"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.88952005, 0.4568961, 0, -0.4568961, 0.88952005, 0, 237.31363, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_ptml4")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7217603, 0.69214314, 0, -0.69214314, 0.7217603, 0, 217, 309)
+script = ExtResource("4_p0eop")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sl4s4")

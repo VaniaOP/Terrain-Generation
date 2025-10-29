@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://b1851krk0tj4j"]
+
+[ext_resource type="Script" uid="uid://kf5vroui54ly" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="1_x3511"]
+[ext_resource type="Texture2D" uid="uid://hw3go143n56p" path="res://textures/import/TSet_slot0_albedo_bump.png" id="2_x3511"]
+[ext_resource type="Texture2D" uid="uid://b0rft615nk1c5" path="res://textures/import/TSet_slot1_albedo_bump.png" id="3_223i0"]
+[ext_resource type="Texture2D" uid="uid://dxkhs4sns360i" path="res://textures/import/TSet_slot0_normal_roughness.png" id="4_wkoum"]
+[ext_resource type="Texture2D" uid="uid://bke6cr446ej2f" path="res://textures/import/TSet_slot1_normal_roughness.png" id="5_ogcfv"]
+
+[resource]
+script = ExtResource("1_x3511")
+mode = 0
+textures = [[ExtResource("2_x3511"), ExtResource("3_223i0")], [ExtResource("4_wkoum"), ExtResource("5_ogcfv")]]

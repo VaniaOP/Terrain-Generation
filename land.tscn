@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://c2c3lqhnstw22"]
+
+[ext_resource type="Shader" uid="uid://fgbp2v23tvjq" path="res://land.gdshader" id="1_dwsah"]
+[ext_resource type="Script" uid="uid://bv43wwyyxysfs" path="res://terrain_generator.gd" id="2_mgpfe"]
+[ext_resource type="Script" uid="uid://dtg5nrysvvlp" path="res://camera_3d.gd" id="3_pl1wv"]
+[ext_resource type="Texture2D" uid="uid://db0lmo5t8dmqq" path="res://citrus_orchard_road_puresky_2k.exr" id="4_iooh7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mgpfe"]
+shader = ExtResource("1_dwsah")
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_height = 100.0
+shader_parameter/texture_type = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pl1wv"]
+transparency = 1
+albedo_color = Color(0, 0.34509805, 0.57254905, 0.6392157)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iooh7"]
+material = SubResource("StandardMaterial3D_pl1wv")
+size = Vector2(1025, 1025)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_asfs6"]
+panorama = ExtResource("4_iooh7")
+
+[sub_resource type="Sky" id="Sky_iooh7"]
+sky_material = SubResource("PanoramaSkyMaterial_asfs6")
+
+[sub_resource type="Environment" id="Environment_atr1s"]
+background_mode = 2
+sky = SubResource("Sky_iooh7")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_mgpfe")
+offset_right = 1025.0
+offset_bottom = 1025.0
+
+[node name="SubViewport" type="SubViewport" parent="."]
+use_hdr_2d = true
+size = Vector2i(1025, 1025)
+render_target_update_mode = 0
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_mgpfe")
+offset_right = 1025.0
+offset_bottom = 1025.0
+
+[node name="Terrain_Generator" type="Node" parent="." node_paths=PackedStringArray("viewport", "shader_node")]
+script = ExtResource("2_mgpfe")
+viewport = NodePath("../SubViewport")
+shader_node = NodePath("../SubViewport/ColorRect")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7217603, 0.69214314, 0, -0.69214314, 0.7217603, 0, 456.535, 600)
+script = ExtResource("3_pl1wv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.12635496, 0.9919852, 0, -0.9919852, 0.12635496, 0, 31.949432, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_iooh7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_atr1s")
